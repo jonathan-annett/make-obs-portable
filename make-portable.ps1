@@ -39,9 +39,9 @@ $ndi_zip =  "$downloads\obs-ndi-4.11.1-windows-x64.zip"
 
 function dowload_file (
         $url,
-        $filename,
-        $shafilename=$false,
-        $sha=$false
+        $filename
+
+
      ) {
 
     if (Test-Path -Path $filename) {
@@ -57,11 +57,7 @@ function dowload_file (
     
         Write-Output "Using Invoke-WebRequest for $url --> $filename"
         Invoke-WebRequest -Uri "$url" -OutFile "$filename"
-        if (($shafilename -eq $false) -or ( $sha -eq $false)) {
-            return 
-        } else {
-            set-content -Path $shafilename   -Value $sha 
-        }
+        
 }
 
 
