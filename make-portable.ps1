@@ -65,9 +65,6 @@ function LoadModule ($m) {
 }
 
  
-$bt_available = ($WebRequest -eq $false) -and (  LoadModule "BitsTransfer" )
- 
-
 
 
 function dowload_file (
@@ -88,36 +85,13 @@ function dowload_file (
         
     }
     
-    if ($bt_available -eq $false) {
-        Write-Output "BitsTransfer module not available, using Invoke-WebRequest for $url --> $filename"
+        Write-Output "Using Invoke-WebRequest for $url --> $filename"
         Invoke-WebRequest -Uri "$url" -OutFile "$filename"
         if (($shafilename -eq $false) -or ( $sha -eq $false)) {
             return 
         } else {
             set-content -Path $shafilename   -Value $sha 
         }
-       
-        return  
-    }
-    Write-Output "using BitsTransfer for $url --> $filename"
-    Start-BitsTransfer -Source "$url" -Destination  "$filename"
-
-    # not great that we do this before download completes, but meh.
-    if (($shafilename -eq $false) -or ( $sha -eq $false)) {
-        return 
-    } else {
-        set-content -Path $shafilename   -Value $sha 
-    }
-  
-}
-
-function  doneDownloading () {
-    if ($bt_available -eq $false) {
-        return
-    }
-    write-host "waiting for files to finish downloading..."
-    Get-BitsTransfer | Complete-BitsTransfer
-    write-host "done downloading"
 }
 
 
@@ -133,8 +107,6 @@ dowload_file "$dyn_url"  "$dyn_zip"
 dowload_file "$move_url"  "$move_zip"
 
 dowload_file "$ndi_url"  "$ndi_zip"
-
-doneDownloading
 
 if ($Reinstall -eq $false -And (Test-Path -Path "$staging\bin\64bit\obs64.exe") ) {
     Write-Output "skipping extraction of $obs_zip"
@@ -179,6 +151,5 @@ function ZipFiles( $zipfilename, $sourcedir )
 }
 
 
-Push-Location $staging
-ZipFiles ..\obs-portable.zip .
-Pop-Location
+Remove-Item -Path .\obs-portable.zip -Force -ErrorAction   SilentlyContinue    
+ZipFiles .\obs-portable.zip $staging
