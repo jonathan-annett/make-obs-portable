@@ -2,7 +2,7 @@
 param (
     [switch]$ReDownload=$false,
     [switch]$Reinstall=$false,
-    [switch]$WebRequest=$false,
+
     [switch]$Help=$false)
 
  
@@ -11,7 +11,7 @@ if ($Help) {
     Write-Output "make-portable.ps1 [-ReDownload] [-Reinstall] [-Help]"
     Write-Output "  -ReDownload: download files even if they already exist"
     Write-Output "  -Reinstall: reinstall OBS even if it is already installed"
-    Write-Output "  -WebRequest: use Invoke-WebRequest instead of BitsTransfer"
+ 
     Write-Output "  -Help: show this help"
     exit
 }
