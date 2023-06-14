@@ -16,7 +16,7 @@ if ($Help) {
     exit
 }
 $obs_version = "29.1"
-$obs_version_full = "29.1.0"
+$obs_version_full = "29.1.2"
 $obs_url =  "https://github.com/obsproject/obs-studio/releases/download/$obs_version_full/OBS-Studio-$obs_version-Full.zip"
 $dyn_url =  "https://obsproject.com/forum/resources/dynamic-delay.1035/version/4615/download?file=89294"
 $move_url = "https://obsproject.com/forum/resources/move-transition.913/version/4854/download?file=93246"
